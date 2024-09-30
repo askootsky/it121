@@ -1,0 +1,26 @@
+<html>
+<head>
+    <script type="text/javascript" src="script.js">
+    </script>
+</head>
+
+<body>
+    <div>
+        <p id="text" style="color:black; 
+            font-weight:bold;font-size:20px;">
+        </p>
+    </div>
+    <script type="text/javascript">
+            let firstName = Student.firstName;
+            let lastName = Student.lastName;
+            let yearsOfStudy = Student.yearsOfStudy;
+            let goal = Student.goal;
+
+            let str = "My name is " + firstName + " " + lastName +". I have been at SCC for " +
+            yearsOfStudy + " and plan to " + goal + " after completing my courses."
+        
+            document.getElementById(
+                'text').innerHTML = str;
+    </script>
+</body> 
+</html>
