@@ -1,7 +1,4 @@
-let Student =
-{
-    firstName: "Austin",
-    lastName: "Skootsky",
-    yearsOfStudy: "2 years",
-    goal: "have a job",
-}
+let firstName = "Austin";
+let lastName = "Skootsky";
+let yearsOfStudy = "2 years";
+let goal = "have a job";
