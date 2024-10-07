@@ -1,11 +1,17 @@
+//Pig Latin Translator
+//Written by: Austin Skootsky
+//Written on: 10/6/24
+
+//Establish an array of vowels for use later.
+//This program assumes "Y" is not a vowel.
 const vowels = ["a", "e", "i", "o", "u",
                 "A", "E", "I", "O", "U"];
 
 phrase = prompt("Enter a word or phrase");
 document.write("You entered - ", phrase, "<br>");
-phrase = phrase.trim(); //this accounts for someone inputting a single letter with spaces on either side
+phrase = phrase.trim(); //This accounts for someone inputting extraneous spaces on either side of their input.
 
-//Check to see if the phrase is valid
+//Check to see if the phrase is invalid (ie: if the input was nothing or a single letter)
 if (phrase == "")
 {
     document.write("You entered nothing. I can't translate that.");
@@ -29,7 +35,7 @@ else
 }
 
 //When we loop over each word, we are going to add each translated word to this string
-//so that we can clean up the full translation afterwards.
+//so that we can trim off extraneous spaces at the end.
 phraseTranslation = ("");
 
 //Here is where we do the looping.
@@ -37,16 +43,25 @@ phraseArray.forEach(translate);
 
 function translate(word)
 {
+    //We grab the first character of each word
     initial = word.slice(0, 1);
 
+    //We check to see if the first character of each word is
+    //in our array of vowels.
     if (vowels.includes(initial))
     {
+        //If so, we translate the word according to vowel rules
+        //and append the word to our larger translation string.
         wordTranslation = (word + "way ");
         wordTranslation = wordTranslation.toLowerCase();
         phraseTranslation = phraseTranslation.concat(wordTranslation);
     }
     else
     {
+        //If the first letter is NOT in our array of vowel,
+        //we need to grab the second character and repeat the check.
+        //After, we translate the word according to consonant rules
+        //and append it to the larger translation string.
         second = word.slice(1,2);
         if (vowels.includes(second))
         {
@@ -65,6 +80,7 @@ function translate(word)
     }
 }
 
-//Now we clean up and write out our final phrase
+//Now we trim the extraneous space at the end of our translation string
+//and then print it out for the user.
 phraseTranslation = phraseTranslation.trim();
 document.write(phraseTranslation);
