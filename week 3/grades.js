@@ -31,10 +31,12 @@
         students[i] = students[i].charAt(0).toUpperCase() + students[i].slice(1);
     }
 
-    //Next we want to determine highest, lowest, and average scores
+    //Next we want to determine highest, lowest, and average scores, 
+    //as well as count the number of students.
     lowest = parseInt(scores[0]);
     highest = parseInt(scores[0]);
     average = 0;
+    totalStudents = students.length;
 
     for (let i = 1; i < scores.length; i++)
     {

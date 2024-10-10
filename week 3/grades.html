@@ -66,11 +66,13 @@
     </table>
     <table style="padding-top: 20px;">
         <tr>
+            <th style="text-align: center;">Total # of Students</th>
             <th style="text-align: center;">Lowest Score</th>
             <th style="text-align: center;">Highest Score</th>
             <th style="text-align: center;">Average Score</th>
         </tr>
         <tr>
+            <td id="totalStudents" style="text-align: center;"></td>
             <td id="lowest" style="text-align: center;"></td>
             <td id="highest" style="text-align: center;"></td>
             <td id="average" style="text-align: center;"></td>
@@ -99,6 +101,7 @@
         document.getElementById('student9').innerHTML = students[9];
         document.getElementById('score9').innerHTML = scores[9];
 
+        document.getElementById('totalStudents').innerHTML = totalStudents;
         document.getElementById('lowest').innerHTML = lowest;
         document.getElementById('highest').innerHTML = highest;
         document.getElementById('average').innerHTML = average;
