@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student grades</title>
+    <script type="text/javascript" src="grades.js"></script>
+    <style>
+        th, td {
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-top: 3px;
+          padding-bottom: 3px;
+        }
+        td:nth-child(odd), th:nth-child(odd) {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+          <th>Student</th>
+          <th>Score</th>
+        </tr>
+        <tr>
+          <td id="student0"></td>
+          <td id="score0"></td>
+        </tr>
+        <tr>
+          <td id="student1"></td>
+          <td id="score1"></td>
+        </tr>
+        <tr>
+          <td id="student2"></td>
+          <td id="score2"></td>
+        </tr>
+        <tr>
+          <td id="student3"></td>
+          <td id="score3"></td>
+        </tr>
+        <tr>
+          <td id="student4"></td>
+          <td id="score4"></td>
+        </tr>
+        <tr>
+          <td id="student5"></td>
+          <td id="score5"></td>
+        </tr>
+        <tr>
+          <td id="student6"></td>
+          <td id="score6"></td>
+        </tr>
+        <tr>
+          <td id="student7"></td>
+          <td id="score7"></td>
+        </tr>
+        <tr>
+          <td id="student8"></td>
+          <td id="score8"></td>
+        </tr>
+        <tr>
+          <td id="student9"></td>
+          <td id="score9"></td>
+        </tr>
+    </table>
+    <table style="padding-top: 20px;">
+        <tr>
+            <th style="text-align: center;">Lowest Score</th>
+            <th style="text-align: center;">Highest Score</th>
+            <th style="text-align: center;">Average Score</th>
+        </tr>
+        <tr>
+            <td id="lowest" style="text-align: center;"></td>
+            <td id="highest" style="text-align: center;"></td>
+            <td id="average" style="text-align: center;"></td>
+        </tr>
+    </table>
+    
+    <script type="text/javascript">
+        document.getElementById('student0').innerHTML = students[0];
+        document.getElementById('score0').innerHTML = scores[0];
+        document.getElementById('student1').innerHTML = students[1];
+        document.getElementById('score1').innerHTML = scores[1];
+        document.getElementById('student2').innerHTML = students[2];
+        document.getElementById('score2').innerHTML = scores[2];
+        document.getElementById('student3').innerHTML = students[3];
+        document.getElementById('score3').innerHTML = scores[3];
+        document.getElementById('student4').innerHTML = students[4];
+        document.getElementById('score4').innerHTML = scores[4];
+        document.getElementById('student5').innerHTML = students[5];
+        document.getElementById('score5').innerHTML = scores[5];
+        document.getElementById('student6').innerHTML = students[6];
+        document.getElementById('score6').innerHTML = scores[6];
+        document.getElementById('student7').innerHTML = students[7];
+        document.getElementById('score7').innerHTML = scores[7];
+        document.getElementById('student8').innerHTML = students[8];
+        document.getElementById('score8').innerHTML = scores[8];
+        document.getElementById('student9').innerHTML = students[9];
+        document.getElementById('score9').innerHTML = scores[9];
+
+        document.getElementById('lowest').innerHTML = lowest;
+        document.getElementById('highest').innerHTML = highest;
+        document.getElementById('average').innerHTML = average;
+    </script>
+</body>
+</html>
