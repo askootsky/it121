@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+
+<h1>Functions & validation</h1>
+
+<form id="form1" action="#" onsubmit="return validateForm(this);">
+  first name: <input type="text" name="firstname"><br>
+  last name: <input type="text" name="lastname"><br>
+  password: <input type="text" name="password"><br>
+
+  <button >Check</button>
+</form>
+
+<hr><div id="message"></div>
+
+<script>
+//Form Validation Codee
+//Written by: Austin Skootsky
+//Written on: 10/15/24
+
+  const validateForm = (myForm) => {
+    //We grab all the strings entered by the user first.
+    let firstName = myForm.firstname.value;
+    let lastName = myForm.lastname.value;
+    let password = myForm.password.value;
+
+    //Our first two validations are simple. We just check whether
+    //the first and last name fields are empty or not.
+    if (firstName == "")
+    {
+      $("#message").html("ERROR: You must enter a first name.");
+    }
+    else if (lastName == "")
+    {
+      $("#message").html("ERROR: You must enter a last name.");
+    }
+    //The password validation is trickier and requires a separate function, written below.
+    else if (validatePassword(password) == false)
+    {
+      $("#message").html("ERROR: You must enter a valid password.");
+    }
+    //If none of the prior checks were tripped, we can safely assume
+    //that the information is valid.
+    else
+    {
+      $("#message").html("Success! You have entered valid information.");
+    }
+
+    //Our password validation function will take in a string and
+    //return a boolean of true or false.
+    function validatePassword(word)
+    {
+      //If there's nothing in the field, return false
+      if (word == "")
+      {
+        return false;
+      }
+      //If the password is too short, return false
+      else if (word.length < 8)
+      {
+        return false;
+      }
+      //Last we need to check upper and lowercase
+      else
+      {
+        //We create a set and iterate over the characters in the password.
+        //If a character is uppercase or lowercase, we add a keyword to
+        //the set. At the end, we have the function check whether our set
+        //has the keyword for both upper and lower case.
+        const charTypes = new Set();
+
+        for (const char of word)
+        {
+          if (/[A-Z]/.test(char))
+          {
+              charTypes.add("uppercase");
+          }
+          else if (/[a-z]/.test(char))
+          {
+              charTypes.add("lowercase");
+          }
+        }
+
+        return (charTypes.has("uppercase") && charTypes.has("lowercase"));
+      }
+    }
+
+    return false; // prevent page reload
+  }
+
+</script>
+
+</body>
+</html> 
