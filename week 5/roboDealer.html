@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Robo Dealer</title>
+</head>
+<body>
+
+<h1>Robo Dealer</h1>
+<h3>Click the button below to draw 5 cards from a randomized deck!</h3>
+<button onclick="deal(deck)">Draw a Hand</button> <button onclick="create(deck)">Reshuffle the Deck</button>
+<p><span id="card0Value"></span><span id="card0Suit"></span></p>
+<p><span id="card1Value"></span><span id="card1Suit"></span></p>
+<p><span id="card2Value"></span><span id="card2Suit"></span></p>
+<p><span id="card3Value"></span><span id="card3Suit"></span></p>
+<p><span id="card4Value"></span><span id="card4Suit"></span></p>
+
+
+<script>
+//Robo Dealer
+//Written by: Austin Skootsky
+//Written on: 10/21/24
+
+//create card class
+class Card
+{
+    constructor(value, suit)
+    {
+      this.value = value;
+      this.suit = suit;
+    }
+}
+
+//instantiate empty deck and hand arrays
+const deck = [];
+let hand = [];
+
+//create the deck
+create(deck);
+
+//This function is called automatically when the page is loaded,
+//and it is also called when the user clicks the "reshuffle" button.
+function create(deck)
+{
+    //Here we discard our current deck, if we already have one.
+    //We also want to get rid of any hand currently displayed.
+    //This is to enable the reshuffling button.
+    if (deck.length != 0)
+    {
+        deck.length = 0;
+        document.getElementById('card0Value').innerHTML = "";
+        document.getElementById('card0Suit').innerHTML = "";
+        document.getElementById('card1Value').innerHTML = "";
+        document.getElementById('card1Suit').innerHTML = "";
+        document.getElementById('card2Value').innerHTML = "";
+        document.getElementById('card2Suit').innerHTML = "";
+        document.getElementById('card3Value').innerHTML = "";
+        document.getElementById('card3Suit').innerHTML = "";
+        document.getElementById('card4Value').innerHTML = "";
+        document.getElementById('card4Suit').innerHTML = "";
+    }
+
+    //We populate our deck array with Card objects and
+    //assign a series of numbers to their values and suits.
+    for (let i = 2; i < 15; i++)
+    {
+        for (let j = 1; j < 5; j++)
+        {
+            let card = new Card(i, j);
+            deck.push(card);
+        }
+    }
+
+    //Here we convert our numbers into the actual ranks and suits.
+    deck.forEach(convertCard);
+
+    //Now we randomize the order of the cards in the deck array.
+    let currentIndex = deck.length;
+
+    while (currentIndex != 0)
+    {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [deck[currentIndex], deck[randomIndex]] = [deck[randomIndex], deck[currentIndex]];
+    }
+}
+
+//This function is used above to convert number assignments into
+//face card values and suits.
+function convertCard(card)
+{
+    //Here we convert our 11-14 values into Jack, Queen, etc.
+    if (card.value > 10)
+    {
+        if (card.value == 11)
+        {
+            card.value = "Jack";
+        }
+        else if (card.value == 12)
+        {
+            card.value = "Queen";
+        }
+        else if (card.value == 13)
+        {
+            card.value = "King";
+        }
+        else if (card.value == 14)
+        {
+            card.value = "Ace";
+        }
+    }
+
+    //Here we convert the suit integers into the actual suits
+    if (card.suit == 1)
+    {
+        card.suit = " of Clubs";
+    }
+    else if (card.suit == 2)
+    {
+        card.suit = " of Spades";
+    }
+    else if (card.suit == 3)
+    {
+        card.suit = " of Hearts";
+    }
+    else if (card.suit == 4)
+    {
+        card.suit = " of Diamonds";
+    }
+}
+
+//This is the function called when the user clicks the "Draw Hand" button.
+function deal(deck)
+{
+    //Since this function continues to draw from a single deck,
+    //we need to make sure there are even enough cards for a new hand.
+    if (deck.length < 5)
+    {
+        alert("Oops! There aren't enough cards left to deal a new hand of 5. Please reshuffle the deck.");
+    }
+    else
+    {
+        //Here we 'discard' our current hand, if we have one.
+        if (hand.length != 0)
+        {
+            hand.length = 0;
+        }
+
+        //Here we pop 5 objects off of our deck array and add them to the hand array.
+        //Using the pop() method means we will not repeat cards already used!
+        for (let i = 0; i < 5; i++)
+        {
+            let card = deck.pop();
+            hand.push(card);
+        }
+
+        //Here we write our hand array into the HTML to display to the user.
+        document.getElementById('card0Value').innerHTML = hand[0].value;
+        document.getElementById('card0Suit').innerHTML = hand[0].suit;
+        document.getElementById('card1Value').innerHTML = hand[1].value;
+        document.getElementById('card1Suit').innerHTML = hand[1].suit;
+        document.getElementById('card2Value').innerHTML = hand[2].value;
+        document.getElementById('card2Suit').innerHTML = hand[2].suit;
+        document.getElementById('card3Value').innerHTML = hand[3].value;
+        document.getElementById('card3Suit').innerHTML = hand[3].suit;
+        document.getElementById('card4Value').innerHTML = hand[4].value;
+        document.getElementById('card4Suit').innerHTML = hand[4].suit;
+    }
+}
+</script>
+
+</body>
+</html>
