@@ -102,12 +102,17 @@
 
 
         // SET VISIBLE ROWS TO ALTERNATING COLORS
-            var EvenOdd = 0;
-            $("table.altRow tr:visible").each(function()
-            {  
-                $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                EvenOdd = !EvenOdd;
-            });
+            function setAlternateColors()
+            {
+                var EvenOdd = 0;
+                $("table.altRow tr:visible").each(function()
+                {  
+                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
+                    EvenOdd = !EvenOdd;
+                });
+            }
+
+            setAlternateColors();
             
         // ENABLE FILTER BUTTONS
 
@@ -115,60 +120,35 @@
             {
                 $("tr:not(:first-child)").hide();
                 $("[rowHouse='Gryffindor']").show();
-                var EvenOdd = 0;
-                $("table.altRow tr:visible").each(function()
-                {  
-                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                    EvenOdd = !EvenOdd;
-                });
+                setAlternateColors();
             });
 
             $("#Hufflepuff").click(function()
             {
                 $("tr:not(:first-child)").hide();
                 $("[rowHouse='Hufflepuff']").show();
-                var EvenOdd = 0;
-                $("table.altRow tr:visible").each(function()
-                {  
-                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                    EvenOdd = !EvenOdd;
-                });
+                setAlternateColors();
             });
 
             $("#Ravenclaw").click(function()
             {
                 $("tr:not(:first-child)").hide();
                 $("[rowHouse='Ravenclaw']").show();
-                var EvenOdd = 0;
-                $("table.altRow tr:visible").each(function()
-                {  
-                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                    EvenOdd = !EvenOdd;
-                });
+                setAlternateColors();
             });
 
             $("#Slytherin").click(function()
             {
                 $("tr:not(:first-child)").hide();
                 $("[rowHouse='Slytherin']").show();
-                var EvenOdd = 0;
-                $("table.altRow tr:visible").each(function()
-                {  
-                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                    EvenOdd = !EvenOdd;
-                });
+                setAlternateColors();
             });
         
         // ENABLE RESET
             $("#reset").click(function()
             {
                 $("tr:not(:first-child)").show();
-                var EvenOdd = 0;
-                $("table.altRow tr:visible").each(function()
-                {  
-                    $(this).css("background-color", ( EvenOdd ? "#DEDFDE" : "#FFFFFF" ));
-                    EvenOdd = !EvenOdd;
-                });
+                setAlternateColors();
             });
 
         });
