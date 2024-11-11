@@ -60,10 +60,11 @@ YOUR CODE GOES HERE: complete the following items to make the tests pass. For ta
   let warnings = $("#warnings");
 
   //4. Find the <li> tags located inside of the element with ID of "warnings"
-  let warningItems = $("#warnings").find("li");
+  // let warningItems = $("#warnings").find("li");
+  let warningItems = $("#warnings > li");
 
   //5. Find the <ul> tag that contains an element with a class of "mild"
-  let ul = $("ul").has(".mild");
+  let ul = $("ul:has(.mild)");
 
   //6. Find all spans with a "data-x" attribute
   var datax = $("span[data-x]");
@@ -75,7 +76,7 @@ YOUR CODE GOES HERE: complete the following items to make the tests pass. For ta
   $(".continent").text("Australia");
 
   //9. Add a class of "stripe" to all odd-numbered list items inside section tags
-  $("section").find("li:odd").addClass("stripe");
+  $("section > li:odd").addClass("stripe");
 
   //10. Remove the class of "facts" from the <main> element
   $("main").removeClass("facts");
