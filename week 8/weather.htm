@@ -1,0 +1,173 @@
+<html>
+    <head>
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.min.js"
+                integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+                crossorigin="anonymous"></script>
+    </head>
+<body>
+  <H3/>Daily Weather Forecast</h3>
+  <hr>
+<form id="testform">
+  City: <input type="text" name="city" id="city">
+    State:
+    <select name="state" id="state">
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="IA">Iowa</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="ME">Maine</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PR">Puerto Rico</option>
+        <option value="PW">Palau</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+</form>
+<button>submit</button>
+<div>City and State Input</div>
+<div id=serializearray>asfdg</div>
+<div>Lat and Lon</div>
+<div id=latlon>asfdg</div>
+<div id="forecast"></div>
+
+<script>
+  // change to your API
+  // let API_KEY = "2192436fa7a7de21d0ab8d106df75f56";
+
+  // const apiKey = '2192436fa7a7de21d0ab8d106df75f56';
+  // const apiUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=Seattle,WA,840&limit=5&appid=';
+
+  // daily forecast API - https://openweathermap.org/forecast16
+  // geocoding API - https://openweathermap.org/api/geocoding-api
+  // https://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+
+  // NOTE - api docs incorrectly show examples using http instead of https
+
+  const kelvinToF = (value) => {
+    var fahrenheit = (((Number(value) - 273.15)*9)/5) + 32;
+    return fahrenheit.toFixed(2);
+  }
+
+
+$('button').on('click', (e) => {
+  const cityInput = document.getElementById("city");
+  const stateInput = document.getElementById("state");
+
+  const city = cityInput.value;
+  const state = stateInput.value;
+
+  $(function() {
+    var update = function() {
+        $('#serializearray').text(        
+            city + " " + state
+        );
+    };
+    update();
+    $('form').change(update);
+  })
+
+  const apiKey = '2192436fa7a7de21d0ab8d106df75f56';
+  const apiUrlGeo = 'https://api.openweathermap.org/geo/1.0/direct?q='+city+','+state+','+'840&limit=5&appid=';
+
+  getCoordinates();
+
+  function getCoordinates(){
+    fetch(apiUrlGeo + apiKey)
+    .then(response => {
+      if (response.ok)
+      {
+        return response.json();
+      }
+      else
+      {
+        throw new Error('API request failed');
+      }
+    })
+    .then(data => {
+      console.log(data);
+      $('#latlon').text(data[0].lat + " " + data[0].lon);
+      const lat = data[0].lat;
+      const lon = data[0].lon;
+      const url = 'https://api.openweathermap.org/data/2.5/forecast/daily?lat='+lat+'&lon='+lon+'&cnt=5&appid='+apiKey;
+      return url;
+    })
+    .then(url => {
+      getForecast(url);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+  
+  function getForecast(url){
+    fetch(url)
+    .then(response => {
+      if (response.ok)
+      {
+        return response.json();
+      }
+      else
+      {
+        throw new Error('API request failed');
+      }
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  $("button").disabled = true;
+
+});
+
+</script>
+</body>
+</html>
