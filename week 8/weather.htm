@@ -1,5 +1,10 @@
 <html>
     <head>
+      <style>
+        th, td {
+          padding: 10px;
+        }
+      </style>
         <script
                 src="https://code.jquery.com/jquery-3.7.1.min.js"
                 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -7,6 +12,7 @@
     </head>
 <body>
   <H3/>Daily Weather Forecast</h3>
+  <p>Look up a 5 day forecast for a United States city using the form below!</p>
   <hr>
 <form id="testform">
   City: <input type="text" name="city" id="city">
@@ -68,74 +74,106 @@
         <option value="WY">Wyoming</option>
     </select>
 </form>
-<button>submit</button>
-<div>City and State Input</div>
-<div id=serializearray>asfdg</div>
-<div>Lat and Lon</div>
-<div id=latlon>asfdg</div>
-<div id="forecast"></div>
+<button id="cityAndState">Submit</button>
+<div><br></div>
+
+<table id="forecastTable" border='1'>
+  <tr>
+      <th id="null"></th>
+      <th id="date1">date1</th>
+      <th id="date2">date2</th>
+      <th id="date3">date3</th>
+      <th id="date4">date4</th>
+      <th id="date5">date5</th>
+  </tr>
+  <tr>
+    <th id="temp">Temp (low/high)</th>
+    <td id="temp1"></td>
+    <td id="temp2"></td>
+    <td id="temp3"></td>
+    <td id="temp4"></td>
+    <td id="temp5"></td>
+  </tr>
+  <tr>
+    <th id="humidity">Humidity</th>
+    <td id="humidity1"></td>
+    <td id="humidity2"></td>
+    <td id="humidity3"></td>
+    <td id="humidity4"></td>
+    <td id="humidity5"></td>
+  </tr>
+  <tr>
+    <th id="weather">Weather</th>
+    <td id="weather1"></td>
+    <td id="weather2"></td>
+    <td id="weather3"></td>
+    <td id="weather4"></td>
+    <td id="weather5"></td>
+  </tr>
+  <tr>
+    <th id="icon">Icon</th>
+    <td align="middle"><img id="icon1" src=""></td>
+    <td align="middle"><img id="icon2" src=""></td>
+    <td align="middle"><img id="icon3" src=""></td>
+    <td align="middle"><img id="icon4" src=""></td>
+    <td align="middle"><img id="icon5" src=""></td>
+  </tr>
+</table>
 
 <script>
-  // change to your API
-  // let API_KEY = "2192436fa7a7de21d0ab8d106df75f56";
 
-  // const apiKey = '2192436fa7a7de21d0ab8d106df75f56';
-  // const apiUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=Seattle,WA,840&limit=5&appid=';
+//First we populate the header of the table with today's date and the next four days
+getDates();
 
-  // daily forecast API - https://openweathermap.org/forecast16
-  // geocoding API - https://openweathermap.org/api/geocoding-api
-  // https://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
-
-  // NOTE - api docs incorrectly show examples using http instead of https
-
-  const kelvinToF = (value) => {
-    var fahrenheit = (((Number(value) - 273.15)*9)/5) + 32;
-    return fahrenheit.toFixed(2);
-  }
-
-
-$('button').on('click', (e) => {
+//Code to execute when the button is clicked
+$('#cityAndState').on('click', (e) => {
+  //we first grab the city and state from the form
   const cityInput = document.getElementById("city");
   const stateInput = document.getElementById("state");
 
   const city = cityInput.value;
   const state = stateInput.value;
 
-  $(function() {
-    var update = function() {
-        $('#serializearray').text(        
-            city + " " + state
-        );
-    };
-    update();
-    $('form').change(update);
-  })
-
-  const apiKey = '2192436fa7a7de21d0ab8d106df75f56';
+  //next we add our API key plus the city and state from the form to our API request url
+  const apiKey = 'd09708f81ff13711278d283901a9ce34';
   const apiUrlGeo = 'https://api.openweathermap.org/geo/1.0/direct?q='+city+','+state+','+'840&limit=5&appid=';
 
-  getCoordinates();
+  //we execute our code to get the coordinates and the forecast
+  getCoordinatesAndForecast();
 
-  function getCoordinates(){
+  function getCoordinatesAndForecast(){
+    //API request to get the coordinates
     fetch(apiUrlGeo + apiKey)
     .then(response => {
       if (response.ok)
       {
         return response.json();
       }
+      //if the API request fails, we alert the user
       else
       {
         throw new Error('API request failed');
+        alert("The city to coordinates API request failed.");
       }
     })
     .then(data => {
       console.log(data);
+      //if the city/state -> coordinates API request does not work, we tell the user to try again
+      if (data.length == 0)
+      {
+        alert("Your submission did not return a forecast. Please check that the city and state you entered are correct and try again.");
+      }
+      else
+      {
+      //if it does work, we get the latitude and longitude and use it to make a new API request url for the forecast
       $('#latlon').text(data[0].lat + " " + data[0].lon);
       const lat = data[0].lat;
       const lon = data[0].lon;
       const url = 'https://api.openweathermap.org/data/2.5/forecast/daily?lat='+lat+'&lon='+lon+'&cnt=5&appid='+apiKey;
       return url;
+      }
     })
+    //then, we plug our new forecast url into our getForecast() function
     .then(url => {
       getForecast(url);
     })
@@ -154,10 +192,40 @@ $('button').on('click', (e) => {
       else
       {
         throw new Error('API request failed');
+        alert("The forecast API request failed.");
       }
     })
     .then(data => {
       console.log(data);
+      //set temperatures
+      $("#temp1").text("Min: "+kelvinToF(data.list[0].temp.min)+"°F | Max: "+kelvinToF(data.list[0].temp.max)+"°F");
+      $("#temp2").text("Min: "+kelvinToF(data.list[1].temp.min)+"°F | Max: "+kelvinToF(data.list[1].temp.max)+"°F");
+      $("#temp3").text("Min: "+kelvinToF(data.list[2].temp.min)+"°F | Max: "+kelvinToF(data.list[2].temp.max)+"°F");
+      $("#temp4").text("Min: "+kelvinToF(data.list[3].temp.min)+"°F | Max: "+kelvinToF(data.list[3].temp.max)+"°F");
+      $("#temp5").text("Min: "+kelvinToF(data.list[4].temp.min)+"°F | Max: "+kelvinToF(data.list[4].temp.max)+"°F");
+      //set humidity
+      $("#humidity1").text(data.list[0].humidity +"%");
+      $("#humidity2").text(data.list[1].humidity +"%");
+      $("#humidity3").text(data.list[2].humidity +"%");
+      $("#humidity4").text(data.list[3].humidity +"%");
+      $("#humidity5").text(data.list[4].humidity +"%");
+      //set weather
+      $("#weather1").text(data.list[0].weather[0].description);
+      $("#weather2").text(data.list[1].weather[0].description);
+      $("#weather3").text(data.list[2].weather[0].description);
+      $("#weather4").text(data.list[3].weather[0].description);
+      $("#weather5").text(data.list[4].weather[0].description);
+      //set icon
+      icon1 = "https://openweathermap.org/img/wn/"+data.list[0].weather[0].icon+"@2x.png";
+      $("#icon1").attr("src", icon1);
+      icon2 = "https://openweathermap.org/img/wn/"+data.list[1].weather[0].icon+"@2x.png";
+      $("#icon2").attr("src", icon2);
+      icon3 = "https://openweathermap.org/img/wn/"+data.list[2].weather[0].icon+"@2x.png";
+      $("#icon3").attr("src", icon3);
+      icon4 = "https://openweathermap.org/img/wn/"+data.list[3].weather[0].icon+"@2x.png";
+      $("#icon4").attr("src", icon4);
+      icon5 = "https://openweathermap.org/img/wn/"+data.list[4].weather[0].icon+"@2x.png";
+      $("#icon5").attr("src", icon5);
     })
     .catch(error => {
       console.error(error);
@@ -168,6 +236,204 @@ $('button').on('click', (e) => {
 
 });
 
+//here is our function to set all the dates at the beginning.
+//I know it's not ideal to have a bunch of lines of repetitious code like this,
+//but it wasnt working when I tried to make iterating the date a separate function that I reused.
+//This gets the job done but obiously there is room for improvement/clean up.
+function getDates() {
+  const thirtyDayMonths = [4, 6, 9, 11];
+    let date = new Date();
+
+    let currentDay = date.getDate();
+    let currentMonth = date.getMonth()+1;
+    $("#date1").text(currentMonth+"/"+currentDay);
+
+    let day2 = currentDay;
+    let month2 = currentMonth;
+    if (day2>27 && month2==2)
+    {
+      day2 = 1;
+      month2 = month2 + 1;
+    }
+    else if (day2 < 30)
+    {
+      day2 = day2 + 1;
+    }
+    else if (day2 == 30)
+    {
+      if (thirtyDayMonths.includes(month2))
+      {
+        day2 = 1;
+        month2 = month2 + 1;
+      }
+      else
+      {
+        day2 = day2 + 1;
+        if (month2!=12)
+        {
+          month2 = month2+1;
+        }
+        else
+        {
+          month2 = 1;
+        }
+      }
+    }
+    else if (day2 == 31)
+    {
+      day2 = 1;
+      if (month2!=12)
+      {
+        month2 = month2+1;
+      }
+      else
+      {
+        month2 = 1;
+      }
+    }
+    $("#date2").text(month2+"/"+day2);
+
+    let day3 = day2;
+    let month3 = month2;
+    if (day3>27 && month3==2)
+    {
+      day3 = 1;
+      month3 = month3 + 1;
+    }
+    else if (day3 < 30)
+    {
+      day3 = day3 + 1;
+    }
+    else if (day3 == 30)
+    {
+      if (thirtyDayMonths.includes(month3))
+      {
+        day3 = 1;
+        month3 = month3 + 1;
+      }
+      else
+      {
+        day3 = day3 + 1;
+        if (month3!=12)
+        {
+          month3 = month3+1;
+        }
+        else
+        {
+          month3 = 1;
+        }
+      }
+    }
+    else if (day3 == 31)
+    {
+      day3 = 1;
+      if (month3!=12)
+      {
+        month3 = month3+1;
+      }
+      else
+      {
+        month3 = 1;
+      }
+    }
+    $("#date3").text(month3+"/"+day3);
+
+    let day4 = day3;
+    let month4 = month3;
+    if (day4>27 && month4==2)
+    {
+      day4 = 1;
+      month4 = month4 + 1;
+    }
+    else if (day4 < 30)
+    {
+      day4 = day4 + 1;
+    }
+    else if (day4 == 30)
+    {
+      if (thirtyDayMonths.includes(month4))
+      {
+        day4 = 1;
+        month4 = month4 + 1;
+      }
+      else
+      {
+        day4 = day4 + 1;
+        if (month4!=12)
+        {
+          month4 = month4+1;
+        }
+        else
+        {
+          month4 = 1;
+        }
+      }
+    }
+    else if (day4 == 31)
+    {
+      day4 = 1;
+      if (month4!=12)
+      {
+        month4 = month4+1;
+      }
+      else
+      {
+        month4 = 1;
+      }
+    }
+    $("#date4").text(month4+"/"+day4);
+    
+    let day5 = day4;
+    let month5 = month4;
+    if (day5>27 && month5==2)
+    {
+      day5 = 1;
+      month5 = month5 + 1;
+    }
+    else if (day5 < 30)
+    {
+      day5 = day5 + 1;
+    }
+    else if (day5 == 30)
+    {
+      if (thirtyDayMonths.includes(month5))
+      {
+        day5 = 1;
+        month5 = month5 + 1;
+      }
+      else
+      {
+        day5 = day5 + 1;
+        if (month5!=12)
+        {
+          month5 = month5+1;
+        }
+        else
+        {
+          month5 = 1;
+        }
+      }
+    }
+    else if (day5 == 31)
+    {
+      day5 = 1;
+      if (month5!=12)
+      {
+        month5 = month5+1;
+      }
+      else
+      {
+        month5 = 1;
+      }
+    }
+    $("#date5").text(month5+"/"+day5);
+  }
+
+  //our function for converting temperature
+const kelvinToF = (value) => {
+  var fahrenheit = (((Number(value) - 273.15)*9)/5) + 32;
+  return fahrenheit.toFixed(2);
+}
 </script>
 </body>
 </html>
