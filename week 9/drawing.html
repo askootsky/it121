@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>A Landscape</h1>
+
+<canvas id="myCanvas" width="600" height="300" style="border:1px solid grey"></canvas>
+
+</body>
+
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+
+    //draw sky background
+    var myGradient = ctx.createLinearGradient(0, 0, 0, 170);
+    myGradient.addColorStop(1, "CornflowerBlue");
+    myGradient.addColorStop(0, "AliceBlue");
+    ctx.fillStyle = myGradient;
+    ctx.fillRect(0, 0, 600, 300);
+
+    //spikes around sun
+    ctx.beginPath();
+    ctx.moveTo(50, 80);
+    ctx.lineTo(20, 100);
+    ctx.lineTo(60, 100);
+    ctx.lineTo(50, 130);
+    ctx.lineTo(80, 115);
+    ctx.lineTo(95, 140);
+    ctx.lineTo(110, 115);
+    ctx.lineTo(140, 130);
+    ctx.lineTo(130, 100);
+    ctx.lineTo(160, 100);
+    ctx.lineTo(140, 80);
+    ctx.lineTo(170, 60);
+    ctx.lineTo(140, 50);
+    ctx.lineTo(165, 20);
+    ctx.lineTo(130, 30);
+    ctx.lineTo(130, 5);
+    ctx.lineTo(115, 20);
+    ctx.lineTo(105, -5);
+    ctx.lineTo(90, 20);
+    ctx.lineTo(80, -5);
+    ctx.lineTo(70, 20);
+    ctx.lineTo(45, 5);
+    ctx.lineTo(50, 40);
+    ctx.lineTo(20, 50);
+    ctx.closePath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "orange";
+    ctx.stroke();
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    //center of sun
+    ctx.beginPath();
+    ctx.arc(95, 70, 40, 0, 2 * Math.PI);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+    ctx.fillStyle = "orange";
+    ctx.fill();
+    //background hill
+    ctx.beginPath();
+    ctx.moveTo(-60, 400);
+    ctx.bezierCurveTo(-60, 150, 660, 150, 660, 400);
+    ctx.closePath();
+    ctx.strokeStyle = "DarkGreen";
+    ctx.stroke();
+    ctx.fillStyle = "ForestGreen";
+    ctx.fill();
+    //save these style settings
+    ctx.save();
+    //draw a cloud
+    ctx.beginPath();
+    ctx.arc(155, 120, 40, 0, 1.6 * Math.PI);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "Gainsboro";
+    ctx.fillStyle = "FloralWhite";
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(195, 85, 40, 1.05*Math.PI, 0.55*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(225, 115, 40, 1.55*Math.PI, 0.88*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    //increase scale for second cloud
+    ctx.scale(1.5, 1.5)
+    ctx.beginPath();
+    ctx.arc(305, 60, 40, 0, 1.6 * Math.PI);
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(345, 25, 40, 1.05*Math.PI, 0.55*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(375, 55, 40, 1.55*Math.PI, 0.88*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    //draw tree trunk
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "SaddleBrown";
+    ctx.fillStyle = "Peru";
+    ctx.beginPath();
+    ctx.rect(200, 110, 15, 50);
+    ctx.stroke();
+    ctx.fill();
+    //restore our settings for green colors
+    ctx.restore();
+    //draw tree canopy
+    ctx.beginPath();
+    ctx.arc(280, 150, 30, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.arc(340, 150, 33, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(310, 130, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    //add some apples
+    ctx.fillStyle = "Tomato";
+    ctx.strokeStyle = "OrangeRed";
+    ctx.beginPath();
+    ctx.arc(286, 150, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(300, 130, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(328, 115, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(320, 143, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(290, 110, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(262, 144, 4.5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(270, 165, 4.5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(350, 165, 4.5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(370, 230, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    </script>
+
+</html>
